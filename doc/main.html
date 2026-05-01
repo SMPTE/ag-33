@@ -223,62 +223,6 @@
 
     </section>
 
-    <section id="sec-document-github-releases">
-      <h2>GitHub Releases</h2>
-
-      <section id="sec-release-trigger">
-        <h3>Trigger and auto-draft</h3>
-        <p>
-          Whenever the state of the document changes to <code>&lt;meta itemprop="pubState" content="pub" /&gt;</code> on the <code>main</code> branch, the tooling automatically creates a <em>draft</em> release in the GitHub repo. An authorized editor reviews and publishes the draft to finalize the release and trigger production of the associated artifacts.
-        </p>
-      </section>
-
-      <section id="sec-release-naming">
-        <h3>Tag and release naming</h3>
-        <p>
-          Both the GitHub release and the git tag shall be named <code>YYYYMMDD "-" pubStage</code>, where <code>YYYYMMDD</code> directly represents the value of <code>pubDateTime</code> (as defined in <a href="#bib-smpte-ag-26"></a>) and the <code>pubStage</code> suffix is the value of the <code>pubStage</code> meta in lowercase.
-        </p>
-        <p class="example">
-          <code>20230615-fcd</code> or <code>20230925-pub</code>
-        </p>
-      </section>
-
-      <section id="sec-release-force">
-        <h3>Same-day iterations</h3>
-        <p>
-          For workflow events that share both <code>pubDateTime</code> and <code>pubStage</code> with the most recent release but represent a distinct release moment (e.g., entering the PCD period from a Pre-FCD review on the same day), the merge commit message shall include the token <code>[force-release]</code>. The tooling appends a numeric suffix (<code>-2</code>, <code>-3</code>, &hellip;) to the tag to disambiguate.
-        </p>
-      </section>
-
-      <section id="sec-release-publish">
-        <h3>Publishing the draft release</h3>
-        <p>
-          To publish the draft release after it has been auto-created:
-        </p>
-        <ol>
-          <li>In the repository on GitHub, navigate to the <strong>Releases</strong> page (<code>https://github.com/SMPTE/{repo}/releases</code>).</li>
-          <li>Open the draft release whose name matches the expected <code>YYYYMMDD-pubStage</code> tag for the merged document state.</li>
-          <li>Click <strong>Edit</strong>, review the auto-generated release notes, and confirm that the target commit corresponds to the merge that produced the new state.</li>
-          <li>Click <strong>Publish release</strong>.</li>
-        </ol>
-      </section>
-
-      <section id="sec-release-artifacts">
-        <h3>Release artifacts</h3>
-        <p>
-          Publishing the draft release attaches zip packages to the release details page:
-        </p>
-        <ul>
-          <li><strong>Ballot zip</strong> &mdash; used for TC review and balloting, named per <a href="#bib-smpte-ag-02"></a>. Bundles the rendered document together with the published-edition redline (<code>pub-rl.html</code>) and the most-recent-release redline (<code>release-rl.html</code>). See <a href="#bib-smpte-ag-26"></a> for redline details and reference-base selection.</li>
-          <li><strong>Publish zip</strong> &mdash; used for publishing in <a href="#bib-smpte-document-library"></a>, named by the tag.</li>
-        </ul>
-        <p class="example">
-          See <a>https://github.com/SMPTE/st428-24-private/releases/tag/20241101-dp</a>, where <a>https://github.com/SMPTE/st428-24-private/releases/download/20241101-dp/27c-st-428-24-dp-2024-12-06-pub.zip</a> (ballot zip) and <a>https://github.com/SMPTE/st428-24-private/releases/download/20241101-dp/20241101-dp.zip</a> (publish zip) are available.
-        </p>
-      </section>
-
-    </section>
-
     <section id="sec-pr-guidelines">
       <h2>GitHub PR (Pull Request) Guidelines</h2>
 
@@ -296,7 +240,7 @@
 
         <p>At any moment, a document is in one of the statuses listed in <a href="#tab-document-mapping-status"></a>. The document's <code>pubState</code>, <code>pubStage</code>, and (during the PCD period) <code>pubConfidential</code> metadata values determine which one, as defined in <a href="#bib-smpte-ag-26"></a>.</p>
 
-        <p>A <em>pub</em> status (<code>pubState=pub</code>) lives on <code>main</code>, marked by an auto-drafted release. A <em>draft</em> status (<code>pubState=draft</code>) lives on a feature branch with an open Pull Request, which is the work container for that status &mdash; the PR accumulates commits while work is ongoing, and the tooling generates redlines on each PR build per <a href="#bib-smpte-ag-26"></a>. The document advances by merging that PR to <code>main</code>; merges that result in <code>pubState=pub</code> trigger the tooling to auto-draft a release per <a href="#sec-document-github-releases"></a>.</p>
+        <p>A <em>pub</em> status (<code>pubState=pub</code>) lives on <code>main</code>, marked by an auto-drafted release. A <em>draft</em> status (<code>pubState=draft</code>) lives on a feature branch with an open Pull Request, which is the work container for that status &mdash; the PR accumulates commits while work is ongoing, and the tooling generates redlines on each PR build per <a href="#bib-smpte-ag-26"></a>. The document advances by merging that PR to <code>main</code>; merges that result in <code>pubState=pub</code> trigger the tooling to auto-draft a release per <a href="#bib-smpte-ag-26"></a>.</p>
 
         <p>Each status is described below in a card with the same fields: <em>Description</em>, <em>Metadata</em>, <em>Branch</em>, <em>Latest release</em>, <em>Redline</em>, and <em>Notification</em>. After the fields, each card lists numbered procedures for entering and leaving the status, following <a href="#sec-pr-guidelines"></a>. Each procedure step that requires a specific role is tagged with the role identifier defined in <a href="#sec-workflow-roles"></a>; steps without a role tag (such as merging the PR or publishing the auto-drafted release) may be performed by any party with appropriate permissions.</p>
 
@@ -373,7 +317,7 @@
           <li data-actor="document-editor"><em>Document editor:</em> Set <code>pubDateTime</code> to the date drafting was completed (format: <code>YYYY-MM-DD</code>).</li>
           <li data-actor="dg-chair"><em>DG chair:</em> Reviews and approves the PR.</li>
           <li>Merge the PR to <code>main</code>. The tooling auto-drafts a <code>YYYYMMDD-wd</code> release.</li>
-          <li>Publish the auto-drafted release per <a href="#sec-release-publish"></a>.</li>
+          <li>Publish the auto-drafted release per <a href="#bib-smpte-ag-26"></a>.</li>
           <li data-actor="dg-chair"><em>DG chair:</em> Notifies the TC chair the document is ready for Pre-FCD review.</li>
           <li data-actor="tc-chair"><em>TC chair:</em> Requests/starts Pre-FCD review from SMPTE HO.</li>
           <li>The document is now in <a href="#sec-state-wd-pub"></a>.</li>
@@ -414,7 +358,7 @@
           <li data-actor="document-editor"><em>Document editor:</em> Open a Pull Request from the new branch to <code>main</code>.</li>
           <li data-actor="dg-chair"><em>DG chair:</em> Reviews and approves the PR.</li>
           <li>Merge the PR to <code>main</code>. The tooling auto-drafts a <code>YYYYMMDD-cd1</code> release.</li>
-          <li>Publish the auto-drafted release per <a href="#sec-release-publish"></a>.</li>
+          <li>Publish the auto-drafted release per <a href="#bib-smpte-ag-26"></a>.</li>
           <li>The document is now in <a href="#sec-state-cd-pub"></a>.</li>
         </ol>
       </section>
@@ -444,7 +388,7 @@
           <li data-actor="document-editor"><em>Document editor:</em> Set <code>pubDateTime</code> to the date resolution was completed (format: <code>YYYY-MM-DD</code>).</li>
           <li data-actor="dg-chair"><em>DG chair:</em> Reviews and approves the PR.</li>
           <li>Merge the PR to <code>main</code>. The tooling auto-drafts a <code>YYYYMMDD-cd<em>n</em></code> release.</li>
-          <li>Publish the auto-drafted release per <a href="#sec-release-publish"></a>.</li>
+          <li>Publish the auto-drafted release per <a href="#bib-smpte-ag-26"></a>.</li>
           <li>The document is now in <a href="#sec-state-cd-pub"></a>.</li>
         </ol>
       </section>
@@ -474,9 +418,9 @@
           <li data-actor="document-editor"><em>Document editor:</em> On the new branch, set <code>pubConfidential=no</code>.</li>
           <li data-actor="document-editor"><em>Document editor:</em> Open a Pull Request from the new branch to <code>main</code>.</li>
           <li data-actor="dg-chair"><em>DG chair:</em> Reviews and approves the PR.</li>
-          <li>If the merge will occur on the same calendar day as the prior <code>YYYYMMDD-cd<em>n</em></code> release, include <code>[force-release]</code> in the merge commit message per <a href="#sec-release-force"></a>.</li>
+          <li>If the merge will occur on the same calendar day as the prior <code>YYYYMMDD-cd<em>n</em></code> release, include <code>[force-release]</code> in the merge commit message per <a href="#bib-smpte-ag-26"></a>.</li>
           <li>Merge the PR to <code>main</code>. The tooling auto-drafts a release (with a <code>-2</code>, <code>-3</code>, &hellip; suffix when <code>[force-release]</code> was used).</li>
-          <li>Publish the auto-drafted release per <a href="#sec-release-publish"></a>.</li>
+          <li>Publish the auto-drafted release per <a href="#bib-smpte-ag-26"></a>.</li>
           <li data-actor="dg-chair"><em>DG chair:</em> Notifies the TC chair the document is ready for PCD.</li>
           <li data-actor="tc-chair"><em>TC chair:</em> Requests PCD publication from SMPTE HO.</li>
           <li data-actor="smpte-ho"><em>SMPTE HO:</em> Publishes PCD.</li>
@@ -501,7 +445,7 @@
           <dt data-slot="branch">Branch</dt>
           <dd>Status lives on <code>main</code>.</dd>
           <dt data-slot="release">Latest release</dt>
-          <dd>The release auto-drafted on entry &mdash; typically the same <code>YYYYMMDD-cd<em>n</em></code> tag as the originating <a href="#sec-state-cd-pub"></a> release, possibly with a numeric suffix if <code>[force-release]</code> was used (see <a href="#sec-release-force"></a>).</dd>
+          <dd>The release auto-drafted on entry &mdash; typically the same <code>YYYYMMDD-cd<em>n</em></code> tag as the originating <a href="#sec-state-cd-pub"></a> release, possibly with a numeric suffix if <code>[force-release]</code> was used (see <a href="#bib-smpte-ag-26"></a>).</dd>
           <dt data-slot="redline">Redline</dt>
           <dd><code>release-rl.html</code> (unchanged from <code>CD-pub</code>)</dd>
           <dt data-slot="notification">Notification</dt>
@@ -554,7 +498,7 @@
           <li data-actor="document-editor"><em>Document editor:</em> Open a Pull Request from the new branch to <code>main</code>.</li>
           <li data-actor="dg-chair"><em>DG chair:</em> Reviews and approves the PR.</li>
           <li>Merge the PR to <code>main</code>. The tooling auto-drafts a <code>YYYYMMDD-dp</code> release.</li>
-          <li>Publish the auto-drafted release per <a href="#sec-release-publish"></a>.</li>
+          <li>Publish the auto-drafted release per <a href="#bib-smpte-ag-26"></a>.</li>
           <li>The document is now in <a href="#sec-state-dp-pub"></a>.</li>
         </ol>
       </section>
@@ -584,7 +528,7 @@
           <li data-actor="document-editor"><em>Document editor:</em> Set <code>pubDateTime</code> to the date resolution was completed (format: <code>YYYY-MM-DD</code>).</li>
           <li data-actor="dg-chair"><em>DG chair:</em> Reviews and approves the PR.</li>
           <li>Merge the PR to <code>main</code>. The tooling auto-drafts a <code>YYYYMMDD-fcd</code> release.</li>
-          <li>Publish the auto-drafted release per <a href="#sec-release-publish"></a>.</li>
+          <li>Publish the auto-drafted release per <a href="#bib-smpte-ag-26"></a>.</li>
           <li data-actor="dg-chair"><em>DG chair:</em> Notifies the TC chair the document is ready for Pre-DP review.</li>
           <li data-actor="tc-chair"><em>TC chair:</em> Requests/starts Pre-DP review from SMPTE HO.</li>
           <li>The document is now in <a href="#sec-state-fcd-pub"></a>.</li>
@@ -645,7 +589,7 @@
           <li data-actor="document-editor"><em>Document editor:</em> Open a Pull Request from the new branch to <code>main</code>.</li>
           <li data-actor="dg-chair"><em>DG chair:</em> Reviews and approves the PR.</li>
           <li>Merge the PR to <code>main</code>. The tooling auto-drafts a <code>YYYYMMDD-dp</code> release.</li>
-          <li>Publish the auto-drafted release per <a href="#sec-release-publish"></a>.</li>
+          <li>Publish the auto-drafted release per <a href="#bib-smpte-ag-26"></a>.</li>
           <li>The document is now in <a href="#sec-state-dp-pub"></a>.</li>
         </ol>
 
@@ -750,7 +694,7 @@
           <li data-actor="dg-chair"><em>DG chair:</em> Reviews and approves the PR.</li>
           <li data-actor="tc-chair"><em>TC chair:</em> Reviews and approves the PR.</li>
           <li>Merge the PR to <code>main</code>. The tooling auto-drafts a <code>YYYYMMDD-pub</code> release.</li>
-          <li>Publish the auto-drafted release per <a href="#sec-release-publish"></a>.</li>
+          <li>Publish the auto-drafted release per <a href="#bib-smpte-ag-26"></a>.</li>
           <li data-actor="tc-chair"><em>TC chair:</em> Sends release package to SMPTE HO, as a comment to the issue created.</li>
           <li>The document is now in <a href="#sec-state-pub-pub"></a>.</li>
         </ol>
