@@ -358,6 +358,7 @@
         <ol>
           <li data-actor="document-editor"><em>Document editor:</em> Branch <code>YYYYMMDD-cd</code> from <code>main</code>.</li>
           <li data-actor="document-editor"><em>Document editor:</em> On the new branch, set <code>pubState=pub</code> and <code>pubStage=CD</code>.</li>
+          <li data-actor="document-editor"><em>Document editor:</em> Set <code>pubDateTime</code> to the pre-FCD review actual end date (format: <code>YYYY-MM-DD</code>), per <a href="#bib-smpte-ag-02"></a>.</li>
           <li data-actor="document-editor"><em>Document editor:</em> Open a Pull Request from the new branch to <code>main</code>.</li>
           <li data-actor="dg-chair"><em>DG chair:</em> Reviews and approves the PR.</li>
           <li>Merge the PR to <code>main</code>. The tooling auto-drafts a <code>YYYYMMDD-cd</code> release.</li>
@@ -498,6 +499,7 @@
           <li data-actor="tc-chair"><em>TC chair:</em> Requests DP/ST Audit package from DG.</li>
           <li data-actor="document-editor"><em>Document editor:</em> Branch <code>YYYYMMDD-dp</code> from <code>main</code>.</li>
           <li data-actor="document-editor"><em>Document editor:</em> On the new branch, set <code>pubStage=DP</code>. (<code>pubState</code> remains <code>pub</code>.)</li>
+          <li data-actor="document-editor"><em>Document editor:</em> Set <code>pubDateTime</code> to the FCD ballot actual close date (format: <code>YYYY-MM-DD</code>), per <a href="#bib-smpte-ag-02"></a>.</li>
           <li data-actor="document-editor"><em>Document editor:</em> Open a Pull Request from the new branch to <code>main</code>.</li>
           <li data-actor="dg-chair"><em>DG chair:</em> Reviews and approves the PR.</li>
           <li>Merge the PR to <code>main</code>. The tooling auto-drafts a <code>YYYYMMDD-dp</code> release.</li>
@@ -589,6 +591,7 @@
           <li data-actor="tc-chair"><em>TC chair:</em> Requests ST Audit package from DG.</li>
           <li data-actor="document-editor"><em>Document editor:</em> Branch <code>YYYYMMDD-dp</code> from <code>main</code>.</li>
           <li data-actor="document-editor"><em>Document editor:</em> On the new branch, set <code>pubStage=DP</code>. (<code>pubState</code> remains <code>pub</code>.)</li>
+          <li data-actor="document-editor"><em>Document editor:</em> Set <code>pubDateTime</code> to the DP vote actual close date (format: <code>YYYY-MM-DD</code>), per <a href="#bib-smpte-ag-02"></a>.</li>
           <li data-actor="document-editor"><em>Document editor:</em> Open a Pull Request from the new branch to <code>main</code>.</li>
           <li data-actor="dg-chair"><em>DG chair:</em> Reviews and approves the PR.</li>
           <li>Merge the PR to <code>main</code>. The tooling auto-drafts a <code>YYYYMMDD-dp</code> release.</li>
@@ -655,6 +658,7 @@
         <ol>
           <li data-actor="document-editor"><em>Document editor:</em> Branch <code>YYYYMMDD-pub</code> from <code>main</code>.</li>
           <li data-actor="document-editor"><em>Document editor:</em> On the new branch, set <code>pubStage=PUB</code> and <code>pubState=draft</code>.</li>
+          <li data-actor="document-editor"><em>Document editor:</em> Set <code>pubDateTime</code> to the ST Audit ballot actual close date (format: <code>YYYY-MM-DD</code>). This date identifies the published document version per <a href="#bib-smpte-ag-02"></a> and carries through to publication.</li>
           <li data-actor="document-editor"><em>Document editor:</em> Open a Pull Request from the new branch to <code>main</code>. The PR is the work container for the next status; do not merge yet.</li>
           <li>The document is now in <a href="#sec-state-pub-draft"></a>. Any final preparation happens as additional commits to this open PR; the PR is merged when leaving <code>PUB-draft</code>.</li>
         </ol>
